@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const controller = require('./movies.controller')
+// --- methodNotAllowed is a catch all handler that will return messages for unsupported methods --- //
 const methodNotAllowed = require('../errors/methodNotAllowed')
 
 router.route('/:movieId').get(controller.read).all(methodNotAllowed)
