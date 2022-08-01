@@ -1,17 +1,12 @@
 const moviesService = require('./movies.service')
 
-function list(req, res, next) {
+async function list(req, res, next) {
 	if (req.query.is_showing) {
-		moviesService
-			.listIsShowing()
-			.then((data) => res.json({ data }))
-			.catch(next)
+		res.json({ data: await moviesService.listIsShowing() })
 	} else {
-		moviesService
-			.list()
-			.then((data) => res.json({ data }))
-			.catch(next)
+		res.json({ data: await moviesService.list() })
 	}
+	next({ status: 404, message: 'Not found' })
 }
 
 module.exports = {
