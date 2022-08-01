@@ -10,9 +10,15 @@ function listIsShowing() {
 		.select('m.*')
 		.where({ 'mt.is_showing': true })
 		.groupBy('m.movie_id')
+		.orderBy('m.movie_id')
+}
+
+function read(movieId) {
+	return knex('movies').select('*').where({ movie_id: movieId }).first()
 }
 
 module.exports = {
 	list,
 	listIsShowing,
+	read,
 }
