@@ -11,6 +11,11 @@ async function list(req, res, next) {
 	next({ status: 404, message: 'Not found' })
 }
 
+function read(req, res) {
+	const { movie: data } = res.locals
+	res.json({ data })
+}
+
 // --- checking to see if movieExists already using params.movieId and passing it to my serviceHandler --- //
 function movieExists(req, res, next) {
 	moviesService
@@ -23,11 +28,6 @@ function movieExists(req, res, next) {
 			next({ status: 404, message: 'Movie cannot be found.' })
 		})
 		.catch(next)
-}
-
-function read(req, res) {
-	const { movie: data } = res.locals
-	res.json({ data })
 }
 
 module.exports = {
