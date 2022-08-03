@@ -10,11 +10,16 @@ function list(req, res, next) {
 
 function update(req, res, next) {
 	const updatedReview = {
+		...res.locals.review,
 		...req.body.data,
 		review_id: res.locals.review.review_id,
 	}
 	reviewsService
 		.update(updatedReview)
+		// .then((data) => res.json({ data }))
+		.catch(next)
+	reviewsService
+		.getReviewWithCritic(res.locals.review.review_id)
 		.then((data) => res.json({ data }))
 		.catch(next)
 }
