@@ -31,6 +31,7 @@ function destroy(req, res, next) {
 		.catch(next)
 }
 
+// --- checking to see if reviewExists already using params.reviewId and passing it to my serviceHandler --- //
 function reviewExists(req, res, next) {
 	reviewsService
 		.read(req.params.reviewId)
