@@ -1,14 +1,18 @@
 const moviesService = require('./movies.service')
-const asyncErrorBoundary = require('../errors/asyncErrorBoundary')
 
-// --- made this an async as a walkthrough for fellow team members --- //
-async function list(req, res, next) {
+// removed the async list function due to it causing a "Cannot set headers after they are sent..."
+function list(req, res, next) {
 	if (req.query.is_showing) {
-		res.json({ data: await moviesService.listIsShowing() })
+		moviesService
+			.listIsShowing()
+			.then((data) => res.json({ data }))
+			.catch(next)
 	} else {
-		res.json({ data: await moviesService.list() })
+		moviesService
+			.list()
+			.then((data) => res.json({ data }))
+			.catch(next)
 	}
-	next({ status: 404, message: 'Not found' })
 }
 
 function read(req, res) {
@@ -46,7 +50,7 @@ function movieExists(req, res, next) {
 
 module.exports = {
 	read: [movieExists, read],
-	list: asyncErrorBoundary(list),
+	list: list,
 	listMovieTheater: [movieExists, listMovieTheater],
 	listMovieReview: [movieExists, listMovieReview],
 }
