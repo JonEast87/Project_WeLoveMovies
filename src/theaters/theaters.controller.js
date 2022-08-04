@@ -4,7 +4,7 @@ const asyncErrorBoundary = require('../errors/asyncErrorBoundary')
 function list(req, res, next) {
 	theatersSerivce
 		.list()
-		.then((data) => res.json(data))
+		.then((data) => res.json({ data }))
 		.catch(next)
 }
 
