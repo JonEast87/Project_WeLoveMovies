@@ -1,5 +1,6 @@
 const knex = require('../db/connection')
 const mapProperties = require('../utils/map-properties')
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 
 const addCriticDetails = mapProperties({
 	critic_id: 'critic.critic_id',
@@ -8,8 +9,13 @@ const addCriticDetails = mapProperties({
 	organization_name: 'critic.organization_name',
 })
 
-function list() {
-	return knex('movies').select('*')
+async function list() {
+	if (req.query.is_showing) {
+		res.json({ data: await moviesService.listIsShowing() })
+	} else {
+		res.json({ data: await moviesService.list() })
+	}
+	next({ status: 404, message: 'Not found' })
 }
 
 function listIsShowing() {
